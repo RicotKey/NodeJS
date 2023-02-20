@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <table style="width: 50%" class="w3-table-all">
+        <thead>
+          <tr class="w3-light-grey w3-hover-red">
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Action</th>
+
+          </tr>
+        </thead>
+        <% for(var i=0; i < data.length; i++) { %>
+            <tr class="w3-hover-green">
+              <td><%= data[i].email %></td>
+              <td><%= data[i].firstName %></td>
+              <td><%= data[i].lastName%></td>
+              <td><%= data[i].address %></td>
+              <td>
+                <a href="" style="background-color: green; border-radius: 5px;">Edit</a>
+                <a href="" style="background-color: brown; border-radius: 5px;">Delete</a>
+              </td>
+            </tr>
+         <% } %>
+      </table>
+</body>
+</html>

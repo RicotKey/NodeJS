@@ -13,6 +13,9 @@ let initWebRoute = (app) => {
     router.get('/', homeController.getHomPage);
     router.get('/crud', homeController.getCRUD);
     router.post('/post-crud', homeController.postCRUD);
+    router.get('/table-user', homeController.getAllUser);
+    router.get('/edit-user', homeController.editUser);
+    router.post('/put-user', homeController.putUser);
     router.get('/', (req, res)=>{
         return res.send("Hello World")})
 
