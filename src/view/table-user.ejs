@@ -25,8 +25,8 @@
               <td><%= data[i].lastName%></td>
               <td><%= data[i].address %></td>
               <td>
-                <a href="" style="background-color: green; border-radius: 5px;">Edit</a>
-                <a href="" style="background-color: brown; border-radius: 5px;">Delete</a>
+                <a href="/edit-user?id=<%= data[i].id %>" style="background-color: green; border-radius: 5px;">Edit</a>
+                <a href="/delete-user?id=<%= data[i].id %>" style="background-color: brown; border-radius: 5px;">Delete</a>
               </td>
             </tr>
          <% } %>

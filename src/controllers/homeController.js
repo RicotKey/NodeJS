@@ -19,7 +19,10 @@ let getCRUD = (req, res) =>{
 let postCRUD = async (req, res) =>{
     let message= await CRUDService.createNewUser(req.body);
     console.log(message)
-    return res.send('Hello World');
+    let data = await CRUDService.alluser();
+    return res.render('table-user.ejs', {
+        data: data
+    })
 }
 
 let getAllUser = async (req, res) =>{
@@ -48,6 +51,18 @@ let putUser =async ( req, res) => {
        data: userUpdate
     })
 }
+let deleteUser = async (req, res) =>{
+    let userId = req.query.id
+    if(userId){
+        let userDelete = await CRUDService.deleteUser(userId)
+        return res.render('table-user.ejs', {
+            data: userDelete
+         })
+    }
+    else{
+        return res.send('Not found')
+    }
+}
 
 module.exports = {
     getHomPage,
@@ -55,5 +70,6 @@ module.exports = {
     postCRUD,
     getAllUser,
     editUser,
-    putUser
+    putUser,
+    deleteUser
 }
