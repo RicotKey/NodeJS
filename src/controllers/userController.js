@@ -6,8 +6,8 @@ let handleLogin =async (req, res) =>{
    
     if(!email || !password){
         return res.status(500).json({
-            errCode: 0,
-            massage: 'Parameter missing'
+            errCode: 1,
+            message: 'Parameter missing'
         })
     }
     let userData = await userService.handleUserLogin(email, password);

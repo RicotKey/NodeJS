@@ -16,7 +16,7 @@ let handleUserLogin = async(email, password) =>{
                 if(user){
                     let checkpwd = await bcrypt.compareSync(password, user.password);
                     if(checkpwd){
-                        userData.errCode = 2;
+                        userData.errCode = 0;
                         userData.errMessage = 'OK';
                         delete user.password;
                         userData.user = user;
@@ -25,12 +25,12 @@ let handleUserLogin = async(email, password) =>{
                         userData.errMessage = 'Wrong password'
                     }
                 }else{
-                    userData.errCode = 1;
+                    userData.errCode = 2;
                     userData.errMessage = 'Your email not found';
                 }
                 
             }else{
-                userData.errCode = 1;
+                userData.errCode = 2;
                 userData.errMessage = 'Your email not found';
                 
             }
