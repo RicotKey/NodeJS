@@ -3,7 +3,9 @@ import userService from '../service/userService'
 let handleLogin =async (req, res) =>{
     let email = req.body.email;
     let password = req.body.password;
-   
+   /**
+    * body là truyền dữ liệu kiểu post ẩn bên dưới
+    */
     if(!email || !password){
         return res.status(500).json({
             errCode: 1,
@@ -18,7 +20,10 @@ let handleLogin =async (req, res) =>{
     })
 }
 let handleGetAllUser = async (req, res) =>{
-    let id =req.body.id;
+    let id =req.query.id;
+    /**
+     * query là truyền dữ kiểu get trực tiếp trên url 
+     */
     if(!id){
         return res.status(200).json({
             errCode: 1, 
