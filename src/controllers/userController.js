@@ -1,5 +1,5 @@
-import db from '../models/index'
 import userService from '../service/userService' 
+
 let handleLogin =async (req, res) =>{
     let email = req.body.email;
     let password = req.body.password;
@@ -40,8 +40,33 @@ let handleGetAllUser = async (req, res) =>{
     })
 
 }
+let handleCreateNewUser = async (req, res)=>{
+    let mess = await userService.createNewUser(req.body)
+    return res.status(200).json(mess)
+}
+let handleEditUser = async (req, res)=>{
+    let data = req.body
+    let mess = await userService.updateUser(data)
+    return res.status(200).json(mess)
 
+}
+let handleDeleteUser = async (req, res)=>{
+    let id =req.body.id;
+    if(!id){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Parameter missing"
+        })
+    }else{
+        let mess = await userService.deleteUser(id);
+        return res.status(200).json(mess)
+    }
+
+}
 module.exports = {
     handleLogin,
-    handleGetAllUser
+    handleGetAllUser,
+    handleCreateNewUser,
+    handleEditUser,
+    handleDeleteUser
 }
