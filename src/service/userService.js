@@ -111,8 +111,8 @@ let createNewUser =(data)=>{
                 {
                     email: data.email,
                     password: hashpassword,
-                    firstName: data.firstname,
-                    lastName: data.lastname,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
                     address: data.address,
                     phonenumber: data.phonenumber,
                     gender: data.gender === '1'? true: false,
@@ -172,8 +172,8 @@ let updateUser =(data) =>{
             })
             if(user){
                 await db.User.update(
-                    {lastName: data.lastname,
-                    firstName: data.firstname,
+                    {lastName: data.lastName,
+                    firstName: data.firstName,
                     address: data.address},        
                     {where: {id: data.id}}
                 )   
