@@ -56,7 +56,6 @@ let getOneUserbyID  = (userId) =>{
                 where: {id: userId},
                 raw: true
             })
-            console.log(user)
             if(user){
                 resolve(user)
             }
