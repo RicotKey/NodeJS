@@ -162,7 +162,7 @@ let deleteUser = async (id) => {
 let updateUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id) {
+            if (!data.id || !data.firstName || !data.lastName || !data.address || !data.phonenumber) {
                 resolve({
                     errCode: 1,
                     message: "Parameter missing"
@@ -177,7 +177,13 @@ let updateUser = (data) => {
                     {
                         lastName: data.lastName,
                         firstName: data.firstName,
-                        address: data.address
+                        address: data.address,
+                        phonenumber: data.phonenumber,
+                        gender: data.gender,
+                        roleid: data.roleid,
+                        positionid: data.positionid,
+
+
                     },
                     { where: { id: data.id } }
                 )
