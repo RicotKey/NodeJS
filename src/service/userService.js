@@ -117,7 +117,8 @@ let createNewUser = (data) => {
                         phonenumber: data.phonenumber,
                         gender: data.gender,
                         roleid: data.role,
-                        positionid: data.position
+                        positionid: data.position,
+                        image: data.avatar
                     }
                 )
                 resolve({
@@ -173,24 +174,41 @@ let updateUser = (data) => {
                 raw: false
             })
             if (user) {
-                await db.User.update(
-                    {
-                        lastName: data.lastName,
-                        firstName: data.firstName,
-                        address: data.address,
-                        phonenumber: data.phonenumber,
-                        gender: data.gender,
-                        roleid: data.roleid,
-                        positionid: data.positionid,
+                if (data.avatar) {
+                    await db.User.update(
+                        {
+                            lastName: data.lastName,
+                            firstName: data.firstName,
+                            address: data.address,
+                            phonenumber: data.phonenumber,
+                            gender: data.gender,
+                            roleid: data.roleid,
+                            positionid: data.positionid,
+                            image: data.avatar
 
+                        },
+                        { where: { id: data.id } }
+                    )
+                } else {
+                    await db.User.update(
+                        {
+                            lastName: data.lastName,
+                            firstName: data.firstName,
+                            address: data.address,
+                            phonenumber: data.phonenumber,
+                            gender: data.gender,
+                            roleid: data.roleid,
+                            positionid: data.positionid,
 
-                    },
-                    { where: { id: data.id } }
-                )
+                        },
+                        { where: { id: data.id } }
+                    )
+                }
                 resolve({
                     errCode: 0,
                     message: "Edit user success"
                 })
+
             } else {
                 resolve({
                     errCode: 2,
