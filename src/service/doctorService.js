@@ -78,10 +78,50 @@ let saveDetailDoctor = (inputData) => {
     })
 }
 
+let getdetailDoctorSV = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!id) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Parameter missing'
+                })
+            } else {
+                let data = await db.User.findOne({
+                    where: {
+                        id: id
+                    },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                    include: [
+                        {
+                            model: db.Markdown,
+                            attributes: ['description', 'contentHTML', 'contentMarkdown'],
 
+                        },
+                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] }
+
+                    ],
+                    raw: true,
+                    nest: true
+                })
+                if (!data) data = {};
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+
+    })
+}
 
 module.exports = {
     getTopDoctorSV,
     getAllDoctorSV,
-    saveDetailDoctor
+    saveDetailDoctor,
+    getdetailDoctorSV
 }

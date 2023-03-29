@@ -17,7 +17,7 @@ let initApiRoute = (app) => {
     router.get('/top-doctor-home', doctorController.getTopDoctorHome)
     router.get('/get-all-doctor', doctorController.getAllDoctor)
     router.post('/post-infor-doctor', doctorController.postinfordoctor)
-
+    router.get('/getdetailDoctor', doctorController.getdetailDoctor)
 
 
 
