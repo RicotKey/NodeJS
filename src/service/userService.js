@@ -137,7 +137,7 @@ let createNewUser = (data) => {
                 )
                 resolve({
                     errCode: 0,
-                    message: 'OK'
+                    message: 'Create user success'
                 })
             }
         } catch (error) {

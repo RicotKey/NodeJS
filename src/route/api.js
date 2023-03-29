@@ -15,6 +15,13 @@ let initApiRoute = (app) => {
     router.get('/allcodes', userController.handleGetAllCodes)
     //doctor api
     router.get('/top-doctor-home', doctorController.getTopDoctorHome)
+    router.get('/get-all-doctor', doctorController.getAllDoctor)
+    router.post('/post-infor-doctor', doctorController.postinfordoctor)
+
+
+
+
+
     return app.use('/api/v1', router)
 }
 
