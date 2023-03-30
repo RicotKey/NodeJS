@@ -51,25 +51,44 @@ let getAllDoctorSV = () => {
 let saveDetailDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!inputData.doctorid || !inputData.contentHTML || !inputData.contentMarkdown) {
+            if (!inputData.doctorid || !inputData.contentHTML || !inputData.contentMarkdown || !inputData.action) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Parameter missing'
                 })
             } else {
-                await db.Markdown.create(
-                    {
-                        contentHTML: inputData.contentHTML,
-                        contentMarkdown: inputData.contentMarkdown,
-                        description: inputData.description,
-                        doctorid: inputData.doctorid
+                if (inputData.action === 'CREATE') {
+                    await db.Markdown.create(
+                        {
+                            contentHTML: inputData.contentHTML,
+                            contentMarkdown: inputData.contentMarkdown,
+                            description: inputData.description,
+                            doctorid: inputData.doctorid
 
+                        })
+
+                    resolve({
+                        errCode: 0,
+                        errMessage: 'Create infor doctor success'
                     })
+                } else if (inputData.action === 'EDIT') {
+                    let markdown = await db.Markdown.findOne({
+                        where: { doctorid: inputData.doctorid },
+                        raw: false
+                    })
+                    if (markdown) {
+                        markdown.contentHTML = inputData.contentHTML;
+                        markdown.contentMarkdown = inputData.contentMarkdown;
+                        markdown.description = inputData.description;
+                        await markdown.save()
+                        resolve({
+                            errCode: 0,
+                            errMessage: 'Save infor doctor success'
+                        })
+                    }
 
-                resolve({
-                    errCode: 0,
-                    errMessage: 'Create infor doctor success'
-                })
+                }
+
             }
         } catch (error) {
             reject(error)
