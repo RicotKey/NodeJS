@@ -162,7 +162,19 @@ let getdetailDoctorSV = (id) => {
                             attributes: ['description', 'contentHTML', 'contentMarkdown'],
 
                         },
-                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] }
+                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                        {
+                            model: db.Doctor_Infor,
+                            attributes: {
+                                exclude: ['id', 'doctorid']
+                            },
+                            include: [
+
+                                { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] }
+                            ]
+                        }
 
                     ],
                     raw: true,
@@ -258,11 +270,50 @@ let getScheduleByDate = (doctorid, date) => {
     })
 }
 
+let getExtraInforDoctorById = (idInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!idInput) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters'
+                })
+            } else {
+                let data = await db.Doctor_Infor.findOne({
+                    where: {
+                        doctorid: idInput,
+
+                    },
+                    attributes: {
+                        exclude: ['id', 'doctorid']
+                    },
+                    include: [
+                        { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                if (!data) data = [];
+
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getTopDoctorSV,
     getAllDoctorSV,
     saveDetailDoctor,
     getdetailDoctorSV,
     bulkCreateSchedule,
-    getScheduleByDate
+    getScheduleByDate,
+    getExtraInforDoctorById
 }
