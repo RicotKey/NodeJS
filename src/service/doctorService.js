@@ -1,3 +1,4 @@
+import doctor_infor from '../models/doctor_infor';
 import db from '../models/index'
 require('dotenv').config();
 import _, { reject } from 'lodash';
@@ -54,7 +55,13 @@ let getAllDoctorSV = () => {
 let saveDetailDoctor = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!inputData.doctorid || !inputData.contentHTML || !inputData.contentMarkdown || !inputData.action) {
+            if (!inputData.doctorid || !inputData.contentHTML || !inputData.contentMarkdown || !inputData.action
+                || !inputData.selectedPrice
+                || !inputData.selectedPayment
+                || !inputData.selectedProvince
+                || !inputData.nameClinic || !inputData.addressClinic || !inputData.note
+
+            ) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Parameter missing'
@@ -91,6 +98,39 @@ let saveDetailDoctor = (inputData) => {
                     }
 
                 }
+
+                let doctorInfor = await db.Doctor_Infor.findOne({
+                    where: {
+                        doctorid: inputData.doctorid,
+                    },
+                    raw: false
+                })
+                if (doctorInfor) {
+
+                    doctorInfor.doctorid = inputData.doctorid;
+                    doctorInfor.priceid = inputData.selectedPrice;
+                    doctorInfor.provinceid = inputData.selectedProvince;
+                    doctorInfor.paymentid = inputData.selectedPayment;
+                    doctorInfor.nameClinic = inputData.nameClinic;
+                    doctorInfor.addressClinic = inputData.addressClinic;
+                    doctorInfor.note = inputData.note;
+                    await doctorInfor.save()
+                } else {
+                    await db.Doctor_Infor.create({
+                        doctorid: inputData.doctorid,
+                        priceid: inputData.selectedPrice,
+                        provinceid: inputData.selectedProvince,
+                        paymentid: inputData.selectedPayment,
+                        nameClinic: inputData.nameClinic,
+                        addressClinic: inputData.nameClinic,
+                        addressClinic: inputData.addressClinic,
+                        note: inputData.note
+                    })
+                }
+                resolve({
+                    errCode: 0,
+                    errMessage: 'Save infor doctor succed!'
+                })
 
             }
         } catch (error) {
