@@ -19,7 +19,7 @@ let initApiRoute = (app) => {
     router.post('/post-infor-doctor', doctorController.postinfordoctor)
     router.get('/getdetailDoctor', doctorController.getdetailDoctor)
     router.post('/bulk-create-schedule', doctorController.bulkCreateSchedule)
-
+    router.get('/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
 
 
     return app.use('/api/v1', router)
