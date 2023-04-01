@@ -1,6 +1,8 @@
 import express from "express";
 import userController from "../controllers/userController";
 import doctorController from "../controllers/doctorController"
+import patientController from "../controllers/patientController"
+
 let router = express.Router();
 
 let initApiRoute = (app) => {
@@ -21,6 +23,10 @@ let initApiRoute = (app) => {
     router.post('/bulk-create-schedule', doctorController.bulkCreateSchedule)
     router.get('/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
     router.get('/get-extra-infor-doctor-by-id', doctorController.getExtraInforDoctorById)
+    router.get('/get-profile-doctor-by-id', doctorController.getProfileDoctorById)
+
+    //patient api
+    router.post('/patient-book-appointment', patientController.postBookAppointment)
 
 
     return app.use('/api/v1', router)
