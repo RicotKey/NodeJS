@@ -27,6 +27,8 @@ let initApiRoute = (app) => {
 
     //patient api
     router.post('/patient-book-appointment', patientController.postBookAppointment)
+    router.post('/verify-book-appointment', patientController.postVerifyBookAppointment)
+
 
 
     return app.use('/api/v1', router)
