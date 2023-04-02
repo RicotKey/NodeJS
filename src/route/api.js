@@ -30,7 +30,7 @@ let initApiRoute = (app) => {
     router.post('/verify-book-appointment', patientController.postVerifyBookAppointment)
     //specialty api
     router.post('/create-new-specialty', specialtyController.createSpecialty)
-
+    router.get('/get-specialty', specialtyController.getAllSpecialty);
 
     return app.use('/api/v1', router)
 }

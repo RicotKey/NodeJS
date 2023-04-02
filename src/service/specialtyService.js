@@ -27,6 +27,25 @@ let createSpecialty = (data) => {
     })
 }
 
+let getAllSpecialty = () => {
+    return new Promise(async (resolve, reject) => {
+
+        try {
+            let data = await db.Specialty.findAll({
+                order: [['createdAt', 'DESC']],
+            });
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+                data: data
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    createSpecialty
+    createSpecialty,
+    getAllSpecialty
 }
