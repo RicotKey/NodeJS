@@ -36,6 +36,8 @@ let initApiRoute = (app) => {
     router.get('/get-detail-specialty-by-id', specialtyController.getDetailSpecialtyById)
     //Clinnic api
     router.post('/create-new-clinic', clinicController.createClinic)
+    router.get('/get-clinic', clinicController.getAllClinic);
+    router.get('/get-detail-clinic-by-id', clinicController.getDetailClinicById)
 
     return app.use('/api/v1', router)
 }
