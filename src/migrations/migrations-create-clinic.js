@@ -2,10 +2,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Clinics', {
-        // name: DataTypes.STRING,
-        // address: DataTypes.STRING,
-        // description: DataTypes.STRING,
-        // image: DataTypes.STRING,
+      // name: DataTypes.STRING,
+      // address: DataTypes.STRING,
+      // description: DataTypes.STRING,
+      // image: DataTypes.STRING,
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,11 +18,14 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      description: {
+      descriptionMarkdown: {
+        type: Sequelize.TEXT
+      },
+      descriptionHTML: {
         type: Sequelize.TEXT
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.BLOB('long')
       },
       createdAt: {
         allowNull: false,
