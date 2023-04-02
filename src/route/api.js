@@ -2,7 +2,7 @@ import express from "express";
 import userController from "../controllers/userController";
 import doctorController from "../controllers/doctorController"
 import patientController from "../controllers/patientController"
-
+import specialtyController from "../controllers/specialtyController";
 let router = express.Router();
 
 let initApiRoute = (app) => {
@@ -28,7 +28,8 @@ let initApiRoute = (app) => {
     //patient api
     router.post('/patient-book-appointment', patientController.postBookAppointment)
     router.post('/verify-book-appointment', patientController.postVerifyBookAppointment)
-
+    //specialty api
+    router.post('/create-new-specialty', specialtyController.createSpecialty)
 
 
     return app.use('/api/v1', router)
