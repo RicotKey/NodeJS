@@ -10,7 +10,7 @@ let handleUserLogin = async (email, password) => {
             if (isSet) {
                 let user = await db.User.findOne({
                     where: { email: email },
-                    attributes: ['email', 'roleid', 'password', 'firstName', 'lastName'],
+                    attributes: ['id', 'image', 'email', 'roleid', 'password', 'firstName', 'lastName'],
                     raw: true
 
                 });
@@ -182,53 +182,55 @@ let updateUser = (data) => {
                     errCode: 1,
                     message: "Parameter missing"
                 })
-            }
-            let user = await db.User.findOne({
-                where: { id: data.id },
-                raw: false
-            })
-            if (user) {
-                if (data.avatar) {
-                    await db.User.update(
-                        {
-                            lastName: data.lastName,
-                            firstName: data.firstName,
-                            address: data.address,
-                            phonenumber: data.phonenumber,
-                            gender: data.gender,
-                            roleid: data.roleid,
-                            positionid: data.positionid,
-                            image: data.avatar
-
-                        },
-                        { where: { id: data.id } }
-                    )
-                } else {
-                    await db.User.update(
-                        {
-                            lastName: data.lastName,
-                            firstName: data.firstName,
-                            address: data.address,
-                            phonenumber: data.phonenumber,
-                            gender: data.gender,
-                            roleid: data.roleid,
-                            positionid: data.positionid,
-
-                        },
-                        { where: { id: data.id } }
-                    )
-                }
-                resolve({
-                    errCode: 0,
-                    message: "Edit user success"
-                })
-
             } else {
-                resolve({
-                    errCode: 2,
-                    message: "User already exists"
+                let user = await db.User.findOne({
+                    where: { id: data.id },
+                    raw: false
                 })
+                if (user) {
+                    if (data.avatar) {
+                        await db.User.update(
+                            {
+                                lastName: data.lastName,
+                                firstName: data.firstName,
+                                address: data.address,
+                                phonenumber: data.phonenumber,
+                                gender: data.gender,
+                                roleid: data.roleid,
+                                positionid: data.positionid,
+                                image: data.avatar
+
+                            },
+                            { where: { id: data.id } }
+                        )
+                    } else {
+                        await db.User.update(
+                            {
+                                lastName: data.lastName,
+                                firstName: data.firstName,
+                                address: data.address,
+                                phonenumber: data.phonenumber,
+                                gender: data.gender,
+                                roleid: data.roleid,
+                                positionid: data.positionid,
+
+                            },
+                            { where: { id: data.id } }
+                        )
+                    }
+                    resolve({
+                        errCode: 0,
+                        message: "Edit user success"
+                    })
+
+                } else {
+                    resolve({
+                        errCode: 2,
+                        message: "User already exists"
+                    })
+                }
             }
+
         } catch (error) {
             reject(error)
         }

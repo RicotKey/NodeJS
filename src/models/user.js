@@ -13,9 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Allcode, { foreignKey: 'positionid', targetKey: 'keyMap', as: 'positionData' }),
         User.belongsTo(models.Allcode, { foreignKey: 'gender', targetKey: 'keyMap', as: 'genderData' }),
         User.belongsTo(models.Allcode, { foreignKey: 'roleid', targetKey: 'keyMap', as: 'roleData' }),
-        User.hasOne(models.Markdown, { foreignKey: 'doctorid' })
-      User.hasOne(models.Doctor_Infor, { foreignKey: 'doctorid' })
-      User.hasMany(models.Schedule, { foreignKey: 'doctorid', as: 'doctorData' })
+        User.hasOne(models.Markdown, { foreignKey: 'doctorid' }),
+        User.hasOne(models.Doctor_Infor, { foreignKey: 'doctorid' }),
+        User.hasMany(models.Schedule, { foreignKey: 'doctorid', as: 'doctorData' })
+      User.hasMany(models.Booking, { foreignKey: 'patientid', as: 'patientData' })
+
     }
   };
   User.init({

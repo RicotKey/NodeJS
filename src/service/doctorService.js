@@ -2,6 +2,7 @@ import doctor_infor from '../models/doctor_infor';
 import db from '../models/index'
 require('dotenv').config();
 import _, { reject } from 'lodash';
+import emailService from '../service/emailService'
 
 const MAX_NUMBER_SCHUEDULE = process.env.MAX_NUMBER_SCHUEDULE;
 let getTopDoctorSV = (limitimput) => {
@@ -387,6 +388,87 @@ let getProfileDoctorById = (idInput) => {
 }
 
 
+let getListPatientForDoctor = (doctorid, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorid || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters'
+                })
+            } else {
+                let data = await db.Booking.findAll({
+                    where: {
+                        statusid: 'S2',
+                        doctorid: doctorid,
+                        date: date
+                    },
+                    include: [
+                        {
+                            model: db.User, as: 'patientData',
+                            attributes: ['email', 'firstName', 'phonenumber', 'gender'],
+                            include: [
+                                {
+                                    model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']
+                                }
+                            ]
+                        },
+                        {
+                            model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']
+                        }
+
+                    ],
+                    raw: false,
+                    nest: true
+                })
+
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+let sendRemedy = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.email || !data.doctorid || !data.timeType || !data.imgBase64) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters'
+                })
+            } else {
+                let appointment = await db.Booking.findOne({
+                    where: {
+                        doctorid: data.doctorid,
+                        patientid: data.patientid,
+                        timeType: data.timeType,
+                        statusid: 'S2'
+                    },
+                    raw: false
+                })
+                if (appointment) {
+                    appointment.statusid = 'S3';
+                    await appointment.save();
+                }
+
+                await emailService.sendAttachment(data);
+
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 
 module.exports = {
     getTopDoctorSV,
@@ -396,5 +478,7 @@ module.exports = {
     bulkCreateSchedule,
     getScheduleByDate,
     getExtraInforDoctorById,
-    getProfileDoctorById
+    getProfileDoctorById,
+    getListPatientForDoctor,
+    sendRemedy
 }

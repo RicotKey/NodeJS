@@ -1,4 +1,6 @@
+import { query } from 'express';
 import doctorService from '../service/doctorService'
+
 let getTopDoctorHome = async (req, res) => {
     let limit = req.query.limit;
     if (!limit) limit = 10;
@@ -110,6 +112,36 @@ let getProfileDoctorById = async (req, res) => {
     }
 }
 
+let getListPatientForDoctor = async (req, res) => {
+    try {
+        let infor = await doctorService.getListPatientForDoctor(req.query.doctorid, req.query.date)
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from the server'
+        })
+    }
+}
+
+let sendRemedy = async (req, res) => {
+    try {
+        let infor = await doctorService.sendRemedy(req.body)
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from the server'
+        })
+    }
+}
+
 module.exports = {
     getTopDoctorHome,
     getAllDoctor,
@@ -118,5 +150,7 @@ module.exports = {
     bulkCreateSchedule,
     getScheduleByDate,
     getExtraInforDoctorById,
-    getProfileDoctorById
+    getProfileDoctorById,
+    getListPatientForDoctor,
+    sendRemedy
 }
