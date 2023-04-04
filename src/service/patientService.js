@@ -86,6 +86,12 @@ let postVerifyBookAppointment = (data) => {
 
                 if (appointment) {
                     appointment.statusid = 'S2'
+                    await db.Schedule.destroy({
+                        where: {
+                            doctorid: appointment.doctorid,
+                            timeType: appointment.timeType
+                        }
+                    })
                     await appointment.save();
                     resolve({
                         errCode: 0,

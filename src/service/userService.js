@@ -75,7 +75,7 @@ let getAllUser = (userid) => {
             if (userid === "ALL") {
                 user = await db.User.findAll({
                     attributes: {
-                        exclude: ['password', 'image']
+                        exclude: ['password']
                     },
                     include: [
                         { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
