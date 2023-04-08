@@ -1,9 +1,11 @@
 import express from "express";
 import configViewEngine from "./configs/viewEngine";
-import initWebRoute from './route/web';
+import initWebRoute from './routes/web';
 import connectDB from './configs/connectDB'
-import initApiRoute from './route/api'
+import initApiRoute from './routes/api'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 require('dotenv').config();
 
 const app = express();
@@ -32,6 +34,7 @@ app.use(function (req, res, next) {
 
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
+
 //setup ViewEngine
 configViewEngine(app);
 
@@ -43,6 +46,29 @@ connectDB();
 
 //init API
 initApiRoute(app);
+//swagger
+
+const options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Hutech Bookingcare API",
+            version: "0.1.0",
+            description:
+                "This is a simple CRUD API application made with Express and documented with Swagger",
+        },
+        servers: [
+            {
+                url: "http://localhost:8088",
+            },
+        ],
+    },
+
+    apis: ["./routes/*.js"]
+};
+
+const swaggerSpec = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

@@ -21,6 +21,8 @@
     "mysql2": "^2.2.5",
     "nodemailer": "^6.9.1",
     "sequelize": "^6.6.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
